@@ -10,6 +10,9 @@ vector_store = Chroma(
     persist_directory="./chroma_langchain_db",  # Where to save data locally, remove if not necessary
 )
 
+# vector_store = ""
+
 
 def getVectorStore():
+    print(vector_store)
     return vector_store
