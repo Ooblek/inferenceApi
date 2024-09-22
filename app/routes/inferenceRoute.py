@@ -23,18 +23,32 @@ template = """<|user|>
             <|end|><|assistant|>"""
 
 lecture = ''
+indexed_lecture = ''
+plain_lecture = {}
 
 @router.post("/prepare")
 async def prepareData(request: PrepareRequest):
     requestDict = request.model_dump()
     print(requestDict['videoUrl'])
     transcripts = prepareVideo.getTranscript(requestDict['videoUrl'])
+    print(transcripts)
+    global indexed_lecture
+    indexed_lecture = transcripts['indexed']
     global lecture
-    lecture = transcripts
+    lecture = transcripts['transcripts']
+    global plain_lecture
+    plain_lecture = transcripts['plain_transcripts']
     return transcripts
 
+@router.get('/importantRegions')
+async def getRegions():
+    global lecture
+    global plain_lecture
+    global indexed_lecture
+    return summarizer.getRegions(indexed_lecture, len(plain_lecture),plain_lecture )
+
 @router.get('/summarize')
-async def getSummary():
+def getSummary():
     global lecture    
     global llm
     if(lecture):

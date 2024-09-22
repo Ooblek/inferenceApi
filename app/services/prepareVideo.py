@@ -33,8 +33,14 @@ def getTranscript(videoId):
             text = text.replace('\n', ' ')
             text = text.replace("\n", " ").strip("...").replace(".", "").replace("?", " ").replace("!", " ")
             text = re.sub(r"\[.+?\]", '', text)
-            complete_transcript += text +'. '
-            complete_transcript_indexed += text+' ' + str(index)+' . '
+            words = word_tokenize(text)
+            final_sentence = ''
+            for word in words:
+                if(word not in stop_words and word not in filler_words):
+                    final_sentence += wnl.lemmatize(word) + ' '
+            print(final_sentence)
+            complete_transcript += final_sentence +'. '
+            complete_transcript_indexed += final_sentence+' ' + '(' +str(index)+') . '
             index += 1
     texts = text_splitter.split_text(complete_transcript)
     vector_store = vectorStore.getVectorStore()
@@ -48,5 +54,5 @@ def getTranscript(videoId):
         documents.append(document)
     uuids = [str(uuid4()) for _ in range(len(documents))]
     vector_store.add_documents(documents=documents, ids=uuids)
-    return complete_transcript_indexed
+    return {"indexed": complete_transcript_indexed, "transcripts": complete_transcript, "plain_transcripts": transcripts}
 
