@@ -16,7 +16,7 @@ text_splitter = TokenTextSplitter(chunk_size=1024, chunk_overlap=0)
 
 wnl = WordNetLemmatizer()
 stop_words = set(stopwords.words('english'))
-filler_words = ['uh', 'um', 'basically', 'so', 'hmm', 'okay']
+filler_words = ['uh', 'um', 'basically', 'so', 'hmm', 'okay', 'ok', '--']
 def getTranscript(videoId):
     vector_store = vectorStore.getVectorStore()
     transcripts = YouTubeTranscriptApi.get_transcript(videoId)
@@ -38,11 +38,10 @@ def getTranscript(videoId):
             for word in words:
                 if(word not in stop_words and word not in filler_words):
                     final_sentence += wnl.lemmatize(word) + ' '
-            print(final_sentence)
             complete_transcript += final_sentence +'. '
-            complete_transcript_indexed += final_sentence+' ' + '(' +str(index)+') . '
+            complete_transcript_indexed += text+' ' + '(' +str(index)+') . '
             index += 1
-    texts = text_splitter.split_text(complete_transcript)
+    texts = text_splitter.split_text(complete_transcript_indexed)
     vector_store = vectorStore.getVectorStore()
     vector_store.reset_collection()
     documents = []
