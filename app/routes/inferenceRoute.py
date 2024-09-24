@@ -1,9 +1,12 @@
-from fastapi import APIRouter, HTTPException, status
+from typing import List
+from fastapi import APIRouter, HTTPException, status, File
+from typing_extensions import Annotated
 from models.chatRequest import ChatRequest
-from models.prepareRequest import PrepareRequest
+from models.prepareRequest import PrepareRequest, PrepareSrt
 from services import prepareVideo, summarizer
 from llama_cpp import Llama
 from fastapi.responses import StreamingResponse
+import pysrt
 
 
 router = APIRouter(tags=["inference"])
@@ -25,6 +28,18 @@ template = """<|user|>
 lecture = ''
 indexed_lecture = ''
 plain_lecture = {}
+
+@router.post('/uploadSrt')
+async def prepareSrt(request: List[PrepareSrt]):
+    transcriptDict = request
+    transcripts = prepareVideo.prepareVideo(transcriptDict)
+    global indexed_lecture
+    indexed_lecture = transcripts['indexed']
+    global lecture
+    lecture = transcripts['transcripts']
+    global plain_lecture
+    plain_lecture = transcripts['plain_transcripts']
+    return transcripts
 
 @router.post("/prepare")
 async def prepareData(request: PrepareRequest):
@@ -52,6 +67,7 @@ def getSummary():
     global lecture    
     global llm
     if(lecture):
+        # return StreamingResponse(summarizer.fake_video_streamer(), media_type='text/event-stream')
         return  StreamingResponse(summarizer.getSummary(llm, lecture), media_type='text/event-stream')
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
@@ -61,7 +77,9 @@ def getSummary():
 @router.post('/chat')
 async def chatWithLecture(request: ChatRequest):
     requestDict = request.model_dump()
+    print(requestDict)
     # return summarizer.getChat(llm, requestDict['searchString'])
+    # return  StreamingResponse(summarizer.fake_video_streamer(), media_type='text/event-stream')
     return  StreamingResponse(summarizer.getChat(llm, requestDict['searchString']), media_type='text/event-stream')
 
 

@@ -11,10 +11,12 @@ asyncpg==0.29.0
 attrs==24.2.0
 backoff==2.2.1
 bcrypt==4.2.0
+breadability==0.1.20
 build==1.2.2
 CacheControl==0.14.0
 cachetools==5.5.0
 certifi==2024.8.30
+chardet==5.2.0
 charset-normalizer==3.3.2
 chroma-hnswlib==0.7.6
 chromadb==0.5.7
@@ -28,6 +30,7 @@ Deprecated==1.2.14
 diskcache==5.6.3
 distlib==0.3.8
 dnspython==2.6.1
+docopt==0.6.2
 dulwich==0.21.7
 ecdsa==0.19.0
 email_validator==2.2.0
@@ -67,11 +70,12 @@ kubernetes==30.1.0
 langchain==0.2.16
 langchain-chroma==0.1.4
 langchain-community==0.2.17
-langchain-core==0.3.1
+langchain-core==0.3.5
 langchain-huggingface==0.1.0
 langchain-text-splitters==0.2.4
-langsmith==0.1.120
+langsmith==0.1.125
 llama_cpp_python==0.2.90
+lxml==5.3.0
 Mako==1.3.5
 markdown-it-py==3.0.0
 MarkupSafe==2.1.5
@@ -116,6 +120,7 @@ psycopg2-binary==2.9.9
 ptyprocess==0.7.0
 pyasn1==0.6.1
 pyasn1_modules==0.4.1
+pycountry==24.6.1
 pydantic==2.9.1
 pydantic-settings==2.5.2
 pydantic_core==2.23.3
@@ -123,6 +128,7 @@ Pygments==2.18.0
 PyPika==0.48.9
 pyproject_hooks==1.1.0
 pyreadline3==3.5.4
+pysrt==1.1.2
 pytest==7.4.4
 pytest-mock==3.14.0
 python-dateutil==2.9.0.post0
@@ -148,10 +154,14 @@ six==1.16.0
 sniffio==1.3.1
 SQLAlchemy==2.0.34
 SQLAlchemy-Utils==0.41.2
+srt==3.5.3
+sse-starlette==2.1.3
 starlette==0.27.0
+sumy==0.11.0
 sympy==1.13.3
 tenacity==8.5.0
 threadpoolctl==3.5.0
+tiktoken==0.7.0
 tokenizers==0.19.1
 tomlkit==0.13.2
 torch==2.4.1
@@ -168,6 +178,7 @@ virtualenv==20.26.4
 watchfiles==0.24.0
 websocket-client==1.8.0
 websockets==13.0.1
+webvtt-py==0.5.1
 wrapt==1.16.0
 yarl==1.11.1
 youtube-transcript-api==0.6.2

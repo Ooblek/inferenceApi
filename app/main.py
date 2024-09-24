@@ -1,7 +1,7 @@
 import json
 import time
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 import nltk
 nltk.download('punkt')
@@ -10,8 +10,20 @@ nltk.download('punkt_tab')
 nltk.download('wordnet')
 
 from routes import router
-
+origins = [
+    "*",
+    "http://192.168.1.12:3000",
+    "null"
+]
 application = FastAPI()
+application.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    expose_headers=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 application.include_router(router)
 cleaned_lecture = ''
 

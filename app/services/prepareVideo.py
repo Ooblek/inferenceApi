@@ -17,10 +17,14 @@ text_splitter = TokenTextSplitter(chunk_size=1024, chunk_overlap=0)
 wnl = WordNetLemmatizer()
 stop_words = set(stopwords.words('english'))
 filler_words = ['uh', 'um', 'basically', 'so', 'hmm', 'okay', 'ok', '--']
-def getTranscript(videoId):
-    vector_store = vectorStore.getVectorStore()
-    transcripts = YouTubeTranscriptApi.get_transcript(videoId)
 
+
+def getTranscript(videoId):
+    transcripts = YouTubeTranscriptApi.get_transcript(videoId)
+    return prepareVideo(transcripts)
+    
+def prepareVideo(transcripts):
+    vector_store = vectorStore.getVectorStore()
     total_duration = 0
     index = 0
     complete_transcript = ''
