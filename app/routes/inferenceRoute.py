@@ -6,13 +6,13 @@ from models.prepareRequest import PrepareRequest, PrepareSrt
 from services import prepareVideo, summarizer
 from llama_cpp import Llama
 from fastapi.responses import StreamingResponse
-import pysrt
 
 
 router = APIRouter(tags=["inference"])
 llm = Llama(
     model_path="E:\proj\diss\inferenceApi\\app\slm\Phi-3.5-Q6_K_L.gguf",
-    n_ctx=4096,
+    n_ctx=5000,
+    n_batch=224,
     n_threads=8,
     top_p=1,
     n_gpu_layers=30

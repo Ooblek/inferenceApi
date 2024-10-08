@@ -13,7 +13,9 @@ from routes import router
 origins = [
     "*",
     "http://192.168.1.12:3000",
-    "null"
+    "null",
+    "http://localhost:1420",
+    "https://tauri.localhost"
 ]
 application = FastAPI()
 application.add_middleware(

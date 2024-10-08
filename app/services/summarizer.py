@@ -76,7 +76,7 @@ def getSummary(llm, lecture):
        session = llm(
             template.format(lecture), # Prompt
             stream=True,
-            max_tokens=None, # Generate up to 32 tokens, set to None to generate up to the end of the context window
+            max_tokens=-1, # Generate up to 32 tokens, set to None to generate up to the end of the context window
             stop=["<|endoftext|>"], # Stop generating just before the model would generate a new question
             echo=False # Echo the prompt back in the output
         )
