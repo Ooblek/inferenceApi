@@ -12,7 +12,7 @@ router = APIRouter(tags=["inference"])
 llm = Llama(
     model_path="E:\proj\diss\inferenceApi\\app\slm\Phi-3.5-Q6_K_L.gguf",
     n_ctx=5000,
-    n_batch=224,
+    n_batch=512,
     n_threads=8,
     top_p=1,
     n_gpu_layers=30
