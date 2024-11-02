@@ -4,7 +4,7 @@ from fastapi.responses import StreamingResponse
 import asyncio
 from .vectorStore import vectorStore
 from langchain_text_splitters import TokenTextSplitter
-from sumy.summarizers.text_rank  import TextRankSummarizer as Summarizer
+from sumy.summarizers.lsa  import LsaSummarizer as Summarizer
 from sumy.utils import get_stop_words
 from sumy.nlp.stemmers import Stemmer
 from sumy.parsers.plaintext import PlaintextParser
@@ -101,8 +101,11 @@ def getChat(llm, requestChat):
    vector_store = vectorStore.getVectorStore()
    results = vector_store.similarity_search_with_relevance_scores(requestChat, k=2)
    template = """<|user|>
-            You will be given some context. Answer questions only based on that. Do not make up any answers. Do not elaborate on anything that is not found in the context.
+            You will be given some context. Answer questions only based on that.
             <|end|>
+            <|user|>
+             If the context does not contain information for the answer say 'This lecture does not seem to contain information about that. Perhaps try rephasing your question?'. Do not elaborate.
+             <|end|>
             <|user|>Context: {0}.
             Question: {1}.
             <|end|><|assistant|>"""
