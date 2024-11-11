@@ -52,7 +52,10 @@ def getSummary(llm, lecture):
           if(len(text) >= 1024):
             index += 1
             yield "\n Segment "+str(index)+": \n"
-            template = """<|user|>You will be given a part of a lecture. This is part {} of {}. Answer only based on that. do not make up any answers. Do not write conclusions unless this is part {}<|end|><|user|>lecture: {}. Task: Summarize this lecture part covering everything that was taught so far.<|end|><|assistant|>"""
+            template = """<|user|>You will be given a part of a lecture. This is part {} of {}. Answer only based on that. do not make up any answers. 
+            <|end|><|user|>Do not write conclusions unless this is part {}<|end|><|user|>lecture: {}. <|end|><|user|>
+            Task: Summarize this lecture part covering everything that was taught so far.<|end|>
+            <|user|>Answer in points with elaboration<|end|><|assistant|>"""
             print(template.format(index, len(texts),len(texts), text))
             session = llm(
                template.format(index, len(texts),len(texts), text), # Prompt
@@ -70,9 +73,9 @@ def getSummary(llm, lecture):
        template = """<|user|>
             You will be given a lecture. Answer only based on that. Do not make up any answers
             <|end|>
-            <|user|>lecture: {}.
+            <|user|>lecture: {}.<|end|><|user|>
             Task: Give me a summary of this lecture covering everything that was taught.
-            <|end|><|assistant|>"""
+            <|end|><|user|>Answer in points, with elaboration<|end|><|assistant|>"""
        session = llm(
             template.format(lecture), # Prompt
             stream=True,
